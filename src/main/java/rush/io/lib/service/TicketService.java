@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class TicketService {
     @Autowired
     private TicketDao ticketDao;
+
     long getCount(String movieName) {
         return ticketDao.getCount(movieName);
     }

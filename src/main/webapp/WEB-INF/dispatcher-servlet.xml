@@ -57,11 +57,11 @@
         </property>
     </bean>
     <!--事务管理-->
-    <bean id="transationManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <tx:advice id="txAdvice" transaction-manager="transationManager">
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="*"/>
         </tx:attributes>
