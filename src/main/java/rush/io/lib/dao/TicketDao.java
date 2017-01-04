@@ -1,6 +1,6 @@
-package com.lyr.dao;
+package rush.io.lib.dao;
 
-import com.lyr.entity.Ticket;
+import rush.io.lib.entity.Ticket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -18,8 +18,10 @@ public class TicketDao {
         return sessionFactory.getCurrentSession();
     }
     public long getCount(String movieName) {
-        return this.getSession().createQuery("from Ticket t where t.name = ")
-                .setParameter(0， movieName).uniqueResult();
+        Ticket ticket = (Ticket) this.getSession().createQuery("from Ticket t where t.name = ")
+                .setParameter(0, movieName).uniqueResult();
+        return ticket.getCount();
+
     }
     public void addTicket(Ticket ticket) {
         this.getSession().save(ticket);

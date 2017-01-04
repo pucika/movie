@@ -1,4 +1,4 @@
-package com.lyr.entity;
+package rush.io.lib.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -46,11 +46,11 @@ public class User implements Serializable{
     }
 
     @Column(name = "email", nullable = false, length = 32, unique = true)
-    public String getMail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setMail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 }

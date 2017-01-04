@@ -1,6 +1,7 @@
-package com.lyr.controller;
-import com.lyr.entity.User;
-import com.lyr.service.UserService;
+package rush.io.lib.controller;
+import org.springframework.web.bind.annotation.RequestMethod;
+import rush.io.lib.entity.User;
+import rush.io.lib.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +16,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/loginView")
-    public String loginView() {
-        return "login.jsp";
-    }
-
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView login(User user) {
         ModelAndView mav = new ModelAndView();
         System.out.println(user.getName() + " " + user.getPassword());

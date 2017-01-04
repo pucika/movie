@@ -1,4 +1,4 @@
-package com.lyr.controller;
+package rush.io.lib.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

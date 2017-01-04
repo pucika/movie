@@ -1,6 +1,6 @@
-package com.lyr.dao;
+package rush.io.lib.dao;
 
-import com.lyr.entity.User;
+import rush.io.lib.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -31,7 +31,9 @@ public class UserDao {
                 .setParameter(0, userName).uniqueResult();
     }
     public String getEmail(String name) {
-        return (User)(this.getSession().createQuery("from User u where u.name = ")
-                .setParameter(0, name).uniqueResult()).getEmail();
+        User user = (User) this.getSession().createQuery("from User u where u.name = ")
+                .setParameter(0, name).uniqueResult();
+        return user.getEmail();
+
     }
 }

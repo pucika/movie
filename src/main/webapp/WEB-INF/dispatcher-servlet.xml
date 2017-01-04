@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/cache"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-
-    <context:property-placeholder location="classpath:jdbc.properties"/>
-
-
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!--配置文件-->
     <context:property-placeholder location="classpath:/jdbc.properties"/>
     <!--AOP-->
     <aop:aspectj-autoproxy/>
     <!--包扫描-->
-    <context:component-scan base-package="com.lyr">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
-
-    <mvc:resource mapping="/js/**" location="/js"/>
-
-
-
-
+    <context:component-scan base-package="rush.io.lib.controller"/>
+    <!--注解的处理器适配器-->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    <!--注解的处理器映射器-->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <!--&lt;!&ndash;配置注解的处理器映射器和处理器适配器&ndash;&gt;-->
+    <!--<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>-->
     <!--数据源-->
-    <bean id = "dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
@@ -50,7 +52,7 @@
         </property>
         <property name="packagesToScan">
             <list>
-                <value>com.lyr.entity</value>
+                <value>rush.io.lib.entity</value>
             </list>
         </property>
     </bean>
@@ -59,17 +61,14 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <tx:advice id="txAdvice" transation-manager="transationManager">
+    <tx:advice id="txAdvice" transaction-manager="transationManager">
         <tx:attributes>
-            <tx:method name="get*" read-only="true" propagation="REQUIRED"/>
-            <tx:method name="list*" read-only="true" propagation="REQUIRED"/>
-            <tx:method name="find*" read-only="true" propagation="REQUIRED"/>
-            <tx:method name="*" propagation="REQUIRED" rooback-for="Exception"/>
+            <tx:method name="*"/>
         </tx:attributes>
     </tx:advice>
 
     <aop:config proxy-target-class="true">
-        <aop:advisor pointcut="execution(public * com.lyr.*.service.*Service.*(..))" advice-ref="txAdvice"/>
+        <aop:advisor pointcut="execution(public * rush.io.lib.*.service.*Service.*(..))" advice-ref="txAdvice"/>
     </aop:config>
 
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

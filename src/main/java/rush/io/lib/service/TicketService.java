@@ -1,7 +1,7 @@
-package com.lyr.service;
+package rush.io.lib.service;
 
-import com.lyr.dao.TicketDao;
-import com.lyr.entity.Ticket;
+import rush.io.lib.dao.TicketDao;
+import rush.io.lib.entity.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

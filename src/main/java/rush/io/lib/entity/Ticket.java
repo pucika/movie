@@ -1,4 +1,4 @@
-package com.lyr.entity;
+package rush.io.lib.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 

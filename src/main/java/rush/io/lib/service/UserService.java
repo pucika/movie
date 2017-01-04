@@ -1,7 +1,7 @@
-package com.lyr.service;
+package rush.io.lib.service;
 
-import com.lyr.dao.UserDao;
-import com.lyr.entity.User;
+import rush.io.lib.dao.UserDao;
+import rush.io.lib.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
