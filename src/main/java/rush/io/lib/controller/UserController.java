@@ -22,7 +22,6 @@ public class UserController {
                         @RequestParam(value = "password", required = true) String password,
                         @RequestParam(value = "email", required = false) String email) {
         ModelAndView mav = new ModelAndView();
-        System.out.println(name + " " + password);
         User user = new User();
         user.setName(name);
         user.setPassword(password);

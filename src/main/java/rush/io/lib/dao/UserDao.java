@@ -22,16 +22,16 @@ public class UserDao {
         this.getSession().save(user);
     }
     public User getUserById(String id) {
-        return (User) this.getSession().createQuery("from  User u where u.id = ?")
+        return (User) this.getSession().createQuery("from  User as u where u.id = ?")
                 .setParameter(0, id).uniqueResult();
     }
 
     public User findUserByName(String userName) {
-        return (User)this.getSession().createQuery("from User u where u.name = ?")
+        return (User)this.getSession().createQuery("from User as u where u.name = ?")
                 .setParameter(0, userName).uniqueResult();
     }
     public String getEmail(String name) {
-        User user = (User) this.getSession().createQuery("from User u where u.name = ")
+        User user = (User) this.getSession().createQuery("from User as u where u.name = ")
                 .setParameter(0, name).uniqueResult();
         return user.getEmail();
 
