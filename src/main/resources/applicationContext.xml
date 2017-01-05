@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx.xsd">
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd" >
+
+    <context:annotation-config/>
+
     <!--配置文件-->
     <context:property-placeholder location="classpath:/jdbc.properties"/>
     <!--AOP-->
     <aop:aspectj-autoproxy/>
     <!--包扫描-->
-    <context:component-scan base-package="rush.io.lib.service"/>
-    <context:component-scan base-package="rush.io.lib.dao"/>
+    <context:component-scan base-package="rush.io.lib">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--扩充了注解驱动，可以将请求参数绑定到控制器参数-->
+    <mvc:annotation-driven/>
+
+    <!--&lt;!&ndash;注解的处理器适配器&ndash;&gt;-->
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>-->
+    <!--&lt;!&ndash;注解的处理器映射器&ndash;&gt;-->
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>-->
+    <!--&lt;!&ndash;&lt;!&ndash;配置注解的处理器映射器和处理器适配器&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>&ndash;&gt;-->
     <!--数据源-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -31,7 +43,6 @@
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
     </bean>
-
     <!--Hibernate Session-->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -52,26 +63,19 @@
             </list>
         </property>
     </bean>
-
-    <!-- 配置事务管理器 -->
+    <!--事务管理-->
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <!-- 通过AOP配置提供事务增强，让service包下所有Bean的所有方法拥有事务 -->
-    <aop:config proxy-target-class="true">
-        <aop:pointcut id="serviceMethod"
-                      expression=" execution(* rush.io.lib.*.service..*(..))" />
-        <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
-    </aop:config>
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="*" />
+            <tx:method name="*"/>
         </tx:attributes>
     </tx:advice>
-    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
+
+    <aop:config proxy-target-class="true">
+        <aop:advisor pointcut="execution(public * rush.io.lib.*.service.*Service.*(..))" advice-ref="txAdvice"/>
+    </aop:config>
+
 </beans>

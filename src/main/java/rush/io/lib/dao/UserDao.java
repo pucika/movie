@@ -15,7 +15,7 @@ public class UserDao {
     @Resource
     private SessionFactory sessionFactory;
     private Session getSession() {
-        return sessionFactory.getCurrentSession();
+        return sessionFactory.openSession();
     }
 
     public void register(User user) {

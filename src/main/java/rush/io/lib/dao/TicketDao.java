@@ -14,9 +14,12 @@ import javax.annotation.Resource;
 public class TicketDao {
     @Resource
     private SessionFactory sessionFactory;
+
+
     private Session getSession() {
         return sessionFactory.getCurrentSession();
     }
+
     public long getCount(String movieName) {
         Ticket ticket = (Ticket) this.getSession().createQuery("from Ticket t where t.name = ")
                 .setParameter(0, movieName).uniqueResult();
