@@ -18,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestParam(value = "username", required = true) String name,
+    public ModelAndView login(@RequestParam(value = "username", required = true) String name,
                         @RequestParam(value = "password", required = true) String password,
                         @RequestParam(value = "email", required = false) String email) {
         ModelAndView mav = new ModelAndView();
@@ -29,10 +29,10 @@ public class UserController {
         if (!userService.loginCheck(user)) {
             mav.setViewName("login");
             mav.addObject("errorMsg", "username or password error!");
-            return "login";
         } else {
             userService.register(user);
-            return "tickets";
+            mav.setViewName("tickets");
         }
+        return mav;
     }
 }

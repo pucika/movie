@@ -15,16 +15,14 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-    public boolean register(User user) {
-        User u = userDao.findUserByName(user.getName());
-        if (!u.getName().equals(user.getName())) {
-            userDao.register(user);
-        }
-        return false;
+    public void register(User user) {
+        userDao.register(user);
     }
 
     public boolean loginCheck(User user) {
         User u = userDao.findUserByName(user.getName());
+        if (u == null)
+            return true;
         return user.getPassword().equals(u.getPassword());
     }
 }
