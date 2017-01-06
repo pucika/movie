@@ -19,11 +19,8 @@
         <input type="password" id="password" name="password">
     </p>
     <p>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email">
-    </p>
-    <p>
-        <input type="submit" value="登陆/注册">
+        <input type="submit"  value="登陆">
+        <a href = "/movie/pages/register.jsp" target="_blank">注册</a>
     </p>
 </form>
 </body>

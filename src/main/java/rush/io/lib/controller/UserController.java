@@ -30,7 +30,30 @@ public class UserController {
             mav.setViewName("login");
             mav.addObject("errorMsg", "username or password error!");
         } else {
+            mav.setViewName("tickets");
+            mav.addObject("user", user);
+        }
+        return mav;
+    }
+    @RequestMapping(value = "/pages/register", method = RequestMethod.POST)
+    public ModelAndView register(@RequestParam(value = "username", required = true) String name,
+                                 @RequestParam(value = "password", required = true) String password,
+                                 @RequestParam(value = "email", required = false) String email) {
+        ModelAndView mav = new ModelAndView();
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setEmail(email);
+        if (name.isEmpty() || password.isEmpty() || email.isEmpty()) {
+            mav.setViewName("register");
+            mav.addObject("errorMsg", "not null error!");
+        }
+        else if (!userService.registerCheck(user)) {
+            mav.setViewName("register");
+            mav.addObject("errorMsg", "username has benn used!");
+        } else {
             userService.register(user);
+            mav.addObject("user", user);
             mav.setViewName("tickets");
         }
         return mav;

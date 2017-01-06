@@ -6,6 +6,6 @@
     <title>Title</title>
 </head>
 <body>
-    欢迎你${user.username}
+    欢迎你${user.name}
 </body>
 </html>

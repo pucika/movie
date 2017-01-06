@@ -21,8 +21,10 @@ public class UserService {
 
     public boolean loginCheck(User user) {
         User u = userDao.findUserByName(user.getName());
-        if (u == null)
-            return true;
-        return user.getPassword().equals(u.getPassword());
+        return u != null && user.getPassword().equals(u.getPassword());
+    }
+    public boolean registerCheck(User user) {
+        User u = userDao.findUserByName(user.getName());
+        return u == null;
     }
 }

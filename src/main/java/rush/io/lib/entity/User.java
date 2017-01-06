@@ -22,7 +22,7 @@ public class User implements Serializable{
         this.id = id;
     }
     @Id
-    @Column(name = "id", nullable = false, length = 32, unique = true)
+    @Column(name = "id", nullable = true, length = 32, unique = true)
     @GenericGenerator(name = "generator", strategy = "uuid.hex")
     @GeneratedValue(generator = "generator")
     public String getId() {
